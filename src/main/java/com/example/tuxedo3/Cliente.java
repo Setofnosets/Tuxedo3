@@ -37,8 +37,6 @@ public class Cliente extends Application{
             p.waitFor();
             BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
             String line;
-            Pattern pattern = Pattern.compile("RTN");
-            while (!pattern.matcher(line = reader.readLine()).find()){}
             while ((line = reader.readLine()) != null) {
                 System.out.println(line);
             }
@@ -102,14 +100,24 @@ public class Cliente extends Application{
                 String creditos1 = creditos.getText();
                 String trimestre1 = trimestre.getText();
                 String nombreProfesor1 = nombreProfesor.getText();
-                Universidad universidad = new Universidad(Long.parseLong(codigo1), grupo1, materia1, Long.parseLong(creditos1), Long.parseLong(trimestre1), nombreProfesor1);
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(universidad);}}, new File("Universidad.ud"), "insertaLista");
+                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo1), "", "", -1, -1, ""));}}, new File("Universidad.ud"), "seleccionar");
                 ejecutarUD32();
-                Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                alert.setTitle("Informacion");
-                alert.setHeaderText(null);
-                alert.setContentText("Se ha insertado correctamente");
-                alert.showAndWait();
+                ArrayList<Universidad> universidades = UD32.Leer_UD32(new File("Universidad.ud"));
+                if(universidades != null && universidades.get(0).getCodigo() == Long.parseLong(codigo1)){
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Informacion");
+                    alert.setHeaderText("Informacion");
+                    alert.setContentText("El codigo ya existe");
+                    alert.showAndWait();
+                }else{
+                    UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo1), grupo1, materia1, Long.parseLong(creditos1), Long.parseLong(trimestre1), nombreProfesor1));}}, new File("Universidad.ud"), "insertaLista");
+                    ejecutarUD32();
+                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                    alert.setTitle("Informacion");
+                    alert.setHeaderText(null);
+                    alert.setContentText("Se ha insertado correctamente");
+                    alert.showAndWait();
+                }
             }
         });
         tab1.setContent(grid);

@@ -49,13 +49,13 @@ public class UD32 {
             FileReader reader = new FileReader(archivo);
             BufferedReader bufferedReader = new BufferedReader(reader);
             String linea;
-            /*Pattern pattern = Pattern.compile("RTN");
+            Pattern pattern = Pattern.compile("RTN");
             while (!pattern.matcher(linea = bufferedReader.readLine()).find()){
 
-            }*/
+            }
             while ((linea = bufferedReader.readLine()) != null) {
                 //If matches CODIGO
-                Pattern pattern = Pattern.compile("CODIGO");
+                pattern = Pattern.compile("CODIGO");
                 if(pattern.matcher(linea).find()){
                     Codigo.add((Long.parseLong(linea.substring(linea.indexOf("\t")+1))));
                 }
