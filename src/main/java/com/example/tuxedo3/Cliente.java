@@ -51,6 +51,25 @@ public class Cliente extends Application{
 
         TabPane tabPane = new TabPane();
 
+        //Obtener los servicios
+        tabPane.getTabs().add(Insertar());
+        tabPane.getTabs().add(Consultar());
+        tabPane.getTabs().add(VerTabla());
+        tabPane.getTabs().add(Eliminar());
+        tabPane.getTabs().add(Actualizar());
+
+        //Crear la escena
+        GridPane grid = new GridPane();
+        grid.add(tabPane, 0, 0);
+
+        primaryStage.setScene(new Scene(grid));
+        primaryStage.setTitle("Cliente");
+
+        //Mostrar el escenario
+        primaryStage.show();
+    }
+
+    public Tab Insertar(){
         //Operacion Insertar
         Tab tab1 = new Tab("Insertar");
         tab1.setClosable(false);
@@ -121,7 +140,10 @@ public class Cliente extends Application{
             }
         });
         tab1.setContent(grid);
+        return tab1;
+    }
 
+    public Tab Consultar(){
         //Operacion Consultar
         Tab tab2 = new Tab("Buscar");
         tab2.setClosable(false);
@@ -173,7 +195,10 @@ public class Cliente extends Application{
             }
         });
         tab2.setContent(grid2);
+        return tab2;
+    }
 
+    public Tab VerTabla(){
         //Ver Tabla
         Tab tab3 = new Tab("Ver Todo");
         tab3.setClosable(false);
@@ -218,7 +243,10 @@ public class Cliente extends Application{
             }
         });
         tab3.setContent(grid3);
+        return tab3;
+    }
 
+    public Tab Eliminar(){
         //Eliminar
         Tab tab4 = new Tab("Eliminar");
         tab4.setClosable(false);
@@ -255,7 +283,10 @@ public class Cliente extends Application{
             }
         });
         tab4.setContent(grid4);
+        return tab4;
+    }
 
+    public Tab Actualizar(){
         //Actualizar
         Tab tab5 = new Tab("Actualizar");
         tab5.setClosable(false);
@@ -338,19 +369,6 @@ public class Cliente extends Application{
             }
         });
         tab5.setContent(grid5);
-
-        tabPane.getTabs().add(tab1);
-        tabPane.getTabs().add(tab2);
-        tabPane.getTabs().add(tab3);
-        tabPane.getTabs().add(tab4);
-        tabPane.getTabs().add(tab5);
-
-        grid2 = new GridPane();
-        grid2.add(tabPane, 0, 0);
-
-        primaryStage.setScene(new Scene(grid2));
-        primaryStage.setTitle("Cliente");
-
-        primaryStage.show();
+        return tab5;
     }
 }
