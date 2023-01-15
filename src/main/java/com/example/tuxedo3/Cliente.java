@@ -23,28 +23,12 @@ public class Cliente extends Application{
 
     public static void main(String[] args) {
         try {
+            //Las salidas a System.out.println() se muestran en el archivo Universidad.ud
             System.setOut(new PrintStream(new File("Universidad.ud")));
         } catch (FileNotFoundException e) {
             throw new RuntimeException(e);
         }
         launch(args);
-    }
-
-    public void ejecutarUD32(){
-        ProcessBuilder pb = new ProcessBuilder("bash", "-c", "./bash.sh");
-        try{
-            Process p = pb.start();
-            p.waitFor();
-            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
-            String line;
-            while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }catch (InterruptedException e) {
-            e.printStackTrace();
-        }
     }
 
     public void start(Stage primaryStage) {
@@ -119,21 +103,22 @@ public class Cliente extends Application{
                 String creditos1 = creditos.getText();
                 String trimestre1 = trimestre.getText();
                 String nombreProfesor1 = nombreProfesor.getText();
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo1), "", "", -1, -1, ""));}}, new File("Universidad.ud"), "seleccionar");
-                ejecutarUD32();
+                UD32.Crear_UD32(new Universidad(Long.parseLong(codigo1), "", "", -1, -1, ""), new File("Universidad.ud"), "seleccionar");
+                UD32.ejecutarUD32();
                 ArrayList<Universidad> universidades = UD32.Leer_UD32(new File("Universidad.ud"));
-                if(universidades != null && universidades.get(0).getCodigo() == Long.parseLong(codigo1)){
-                    Alert alert = new Alert(Alert.AlertType.INFORMATION);
-                    alert.setTitle("Informacion");
-                    alert.setHeaderText("Informacion");
+                if(universidades != null && !universidades.isEmpty()){
+                    //Si regresa algo es porque existe el codigo
+                    Alert alert = new Alert(Alert.AlertType.ERROR);
+                    alert.setTitle("Error");
+                    alert.setHeaderText("Error");
                     alert.setContentText("El codigo ya existe");
                     alert.showAndWait();
                 }else{
-                    UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo1), grupo1, materia1, Long.parseLong(creditos1), Long.parseLong(trimestre1), nombreProfesor1));}}, new File("Universidad.ud"), "insertaLista");
-                    ejecutarUD32();
+                    UD32.Crear_UD32(new Universidad(Long.parseLong(codigo1), grupo1, materia1, Long.parseLong(creditos1), Long.parseLong(trimestre1), nombreProfesor1), new File("Universidad.ud"), "insertaLista");
+                    UD32.ejecutarUD32();
                     Alert alert = new Alert(Alert.AlertType.INFORMATION);
                     alert.setTitle("Informacion");
-                    alert.setHeaderText(null);
+                    alert.setHeaderText("Informacion");
                     alert.setContentText("Se ha insertado correctamente");
                     alert.showAndWait();
                 }
@@ -169,9 +154,9 @@ public class Cliente extends Application{
             public void handle(ActionEvent actionEvent) {
                 String codigo3 = codigo2.getText();
                 //Generar consulta
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo3), "", "", -1, -1, ""));}}, new File("Universidad.ud"), "seleccionar");
+                UD32.Crear_UD32(new Universidad(Long.parseLong(codigo3), "", "", -1, -1, ""), new File("Universidad.ud"), "seleccionar");
                 //Ejecutar ud
-                ejecutarUD32();
+                UD32.ejecutarUD32();
                 //Leer del buffer
                 ArrayList<Universidad> universidad = UD32.Leer_UD32(new File("Universidad.ud"));
                 //Mostrar resultado en tabla
@@ -217,10 +202,9 @@ public class Cliente extends Application{
             @Override
             public void handle(ActionEvent actionEvent) {
                 //Generar consulta
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad());}}, new File("Universidad.ud"), "imprimeLista");
+                UD32.Crear_UD32(new Universidad(), new File("Universidad.ud"), "imprimeLista");
                 //Ejecutar ud
-                ejecutarUD32();
-
+                UD32.ejecutarUD32();
                 ArrayList<Universidad> universidad = UD32.Leer_UD32(new File("Universidad.ud"));
                 //Mostrar resultado en tabla
                 TableView<Universidad> table = new TableView<Universidad>();
@@ -271,9 +255,9 @@ public class Cliente extends Application{
             public void handle(ActionEvent actionEvent) {
                 String codigo4 = codigoField4.getText();
                 //Generar consulta
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo4), "", "", -1, -1, ""));}}, new File("Universidad.ud"), "eliminar");
+                UD32.Crear_UD32(new Universidad(Long.parseLong(codigo4), "", "", -1, -1, ""), new File("Universidad.ud"), "eliminar");
                 //Ejecutar ud
-                ejecutarUD32();
+                UD32.ejecutarUD32();
                 //Alerta resultado
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);
                 alert.setTitle("Informacion");
@@ -322,9 +306,9 @@ public class Cliente extends Application{
                 String codigo5 = codigoField5.getText();
                 String seleccion = (String) choiceBox.getValue();
                 //Obtener valores actuales
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo5), "", "", -1, -1, ""));}}, new File("Universidad.ud"), "seleccionar");
+                UD32.Crear_UD32(new Universidad(Long.parseLong(codigo5), "", "", -1, -1, ""), new File("Universidad.ud"), "seleccionar");
                 //Ejecutar ud
-                ejecutarUD32();
+                UD32.ejecutarUD32();
                 //Leer del buffer
                 ArrayList<Universidad> universidad = UD32.Leer_UD32(new File("Universidad.ud"));
                 String grupo5 = universidad.get(0).getGrupo();
@@ -356,9 +340,9 @@ public class Cliente extends Application{
                 long finalCreditos = creditos5;
                 long finalTrimestre = trimestre5;
                 String finalNombreProfesor = nombreProfesor5;
-                UD32.Crear_UD32(new ArrayList<Universidad>(){{add(new Universidad(Long.parseLong(codigo5), finalGrupo, finalMateria, finalCreditos, finalTrimestre, finalNombreProfesor));}}, new File("Universidad.ud"), "insertaLista");
+                UD32.Crear_UD32(new Universidad(Long.parseLong(codigo5), finalGrupo, finalMateria, finalCreditos, finalTrimestre, finalNombreProfesor), new File("Universidad.ud"), "insertaLista");
                 //Ejecutar ud
-                ejecutarUD32();
+                UD32.ejecutarUD32();
 
                 //Alerta resultado
                 Alert alert = new Alert(Alert.AlertType.INFORMATION);

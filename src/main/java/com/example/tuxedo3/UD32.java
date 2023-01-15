@@ -5,32 +5,29 @@ import java.util.ArrayList;
 import java.util.regex.Pattern;
 
 public class UD32 {
-    public static void Crear_UD32(ArrayList<Universidad> Universidades, File archivo, String SRVCNM){
+    public static void Crear_UD32(Universidad universidad, File archivo, String SRVCNM){
         try {
             FileWriter writer = new FileWriter(archivo);
-            for (Universidad universidad : Universidades) {
-                writer.write("SRVCNM\t"+SRVCNM+"\n");
-                if(universidad.getCodigo() != -1){
-                    writer.write("CODIGO\t"+universidad.getCodigo()+"\n");
-                }
-                if(universidad.getGrupo() != ""){
-                    writer.write("GRUPO\t"+universidad.getGrupo()+"\n");
-                }
-                if(universidad.getMateria() != ""){
-                    writer.write("MATERIA\t"+universidad.getMateria()+"\n");
-                }
-                if(universidad.getCreditos() != -1){
-                    writer.write("CREDITOS\t"+universidad.getCreditos()+"\n");
-                }
-                if(universidad.getTrimestre() != -1){
-                    writer.write("TRIMESTRE\t"+universidad.getTrimestre()+"\n");
-                }
-                if(universidad.getNombreProfesor() != ""){
-                    writer.write("NOMBREPROFESOR\t"+universidad.getNombreProfesor()+"\n");
-                }
-                writer.write("\n");
-                //writer.write("SRVCNM\t"+SRVCNM+"\t\rCODIGO\t"+universidad.getCodigo()+"\t\rGRUPO\t"+universidad.getGrupo()+"\t\rMATERIA\t"+universidad.getMateria()+"\t\rCREDITOS\t"+universidad.getCreditos()+"\t\rTRIMESTRE\t"+universidad.getTrimestre()+"\t\rNOMBREPROFESOR\t"+universidad.getNombreProfesor()+"\t\r\n\n<CR>");
+            writer.write("SRVCNM\t"+SRVCNM+"\n");
+            if(universidad.getCodigo() != -1){
+                writer.write("CODIGO\t"+universidad.getCodigo()+"\n");
             }
+            if(universidad.getGrupo() != ""){
+                writer.write("GRUPO\t"+universidad.getGrupo()+"\n");
+            }
+            if(universidad.getMateria() != ""){
+                writer.write("MATERIA\t"+universidad.getMateria()+"\n");
+            }
+            if(universidad.getCreditos() != -1){
+                writer.write("CREDITOS\t"+universidad.getCreditos()+"\n");
+            }
+            if(universidad.getTrimestre() != -1){
+                writer.write("TRIMESTRE\t"+universidad.getTrimestre()+"\n");
+            }
+            if(universidad.getNombreProfesor() != ""){
+                writer.write("NOMBREPROFESOR\t"+universidad.getNombreProfesor()+"\n");
+            }
+            writer.write("\n");
             writer.close();
         }catch (Exception e){
             System.out.println("Error al acceder al archivo");
@@ -103,5 +100,20 @@ public class UD32 {
         }
     }
 
-
+    public static void ejecutarUD32(){
+        ProcessBuilder pb = new ProcessBuilder("bash", "-c", "./bash.sh");
+        try{
+            Process p = pb.start();
+            p.waitFor();
+            BufferedReader reader = new BufferedReader(new InputStreamReader(p.getInputStream()));
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
 }
